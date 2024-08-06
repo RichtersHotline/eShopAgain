@@ -9,9 +9,9 @@ let connection = createPool({
     connectionLimit: 30
 
 })
-connection.on("Connection", (err) => {
+connection.on("Connection", (pool) => {
  
-    if(err) throw new Error ("There was a problem connecting to the database. Contact Your Site Director for further details.")
+    if(!pool) throw new Error ("There was a problem connecting to the database. Contact Your Site Director for further details.")
 
 }) 
 export {
