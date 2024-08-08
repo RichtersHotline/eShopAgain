@@ -126,7 +126,8 @@ db.query(strQry, [data], (err) => {
 
     const token = createToken(user)
     res.json({
-
+    token,
+    msg:"Thank you for registering"
     
     
     })
@@ -136,7 +137,12 @@ db.query(strQry, [data], (err) => {
 }) 
 
 }catch(e) {
+// when a new user can't be added
+res.json({
+status:404,
+msg:e.message
 
+})
 
 
 
