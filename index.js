@@ -2,6 +2,9 @@
 import express from "express"
 import path from "path"
 import {connection as db } from "./config/Config.js"
+import {createToken} from "./middleware/AuthenticateUser.js"
+import {hash} from "bcrypt"
+import bodyParser from "body-parser"
 //create express app
 const app = express()
 const port = +process.env.PORT || 4000
@@ -13,8 +16,8 @@ express.json(),
 express.urlencoded({
 extended:true
 
-
 }))
+router.use(bodyParser.json())
 
 // Endpoint
 router.get("^/$|/eShop", (req, res) => {
@@ -90,6 +93,57 @@ results
 
     }
 })
+router.post("/register", async (req, res) => {
+try {
+let data = req.body
+// encrypts the users password to 12 random characters also known as salt (???)
+    data.pwd = await hash(data.pwd, 12)  
+//   Payload
+let user = {
+
+emailAdd: data.emailAdd,
+pwd:data.pwd
+
+}
+const strQry = `
+ insert into users
+ values(?, ?, ?, ?, ?);
+
+`
+db.query(strQry, [data], (err) => {
+    
+  if (err)  {
+   res.json({ 
+   status: res.statusCode,
+   msg: "This email is in use"   
+    
+
+  })
+
+
+
+} else {
+
+    const token = createToken(user)
+    res.json({
+
+    
+    
+    })
+    
+    
+    }
+}) 
+
+}catch(e) {
+
+
+
+
+}
+
+})
+
 
 router.get("*", (req, res) => {
 
