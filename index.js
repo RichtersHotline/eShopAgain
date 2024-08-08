@@ -103,7 +103,6 @@ msg: "Page Not Found"
 
 
 })
-router.get("/About"
 // router.get("/users/Single", (req, res) => {
 
 //     try {
