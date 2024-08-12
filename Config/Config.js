@@ -3,7 +3,7 @@ import "dotenv/config";
 let connection = createPool({ 
     host: process.env.hostDB,
     user: process.env.userDB,
-    password: process.env.PWD,
+    password: process.env.PWDdb,
     database: process.env.dbName,
     multipleStatements: true,
     connectionLimit: 30
