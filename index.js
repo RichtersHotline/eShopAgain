@@ -8,7 +8,7 @@ import {
     createToken
 } from "./middleware/AuthenticateUser.js"
 import {
-    hash
+    hash, compare
 } from "bcrypt"
 import bodyParser from "body-parser"
 //create express app
@@ -37,7 +37,7 @@ router.get("/users", (req, res) => {
     try {
 
         const strQry = `
-    select firstName, lastName, age, emailAdd
+    select userID, firstName, lastName, age, emailAdd
     from Users;
 
     
@@ -209,7 +209,127 @@ router.patch("/users/:id", async (req, res) => {
 
 
 
+router.delete("/users/:id", (req, res) => {
 
+
+    try {
+        const strQry = ` 
+delete from Users
+where userID = ${req.params.id};
+
+`
+        db.query(strQry, (err) => {
+
+            if (err) throw new Error("Cannot delete user, contact Site Admin if problem persists")
+            res.json({
+
+                status: res.statusCode,
+                msg: "User's info was sucessfully removed."
+
+            })
+
+
+        })
+
+
+
+    } catch (e) {
+
+        res.json({
+
+            status: 404,
+            msg: e.message
+
+
+        })
+
+    }
+
+})
+
+router.post("/login", (req, res) => {
+    try {
+
+        const {
+            emailAdd,
+            pwd
+        } = req.body
+        const strQry = `
+    
+    select userID, firstName, lastName, age, emailAdd, pwd
+    from Users
+    where emailAdd = '${emailAdd}';
+    
+    
+    `
+        db.query(strQry, async (err, result) => {
+            if (err) throw new Error("Login couldn't happen. Check your details")
+            if (!result?.length) {
+                res.json({
+
+                    status: 401,
+                    msg: "Email Address not found. Unauthorised users will be prosecuted"
+
+
+                })
+
+
+            } else {
+
+                const isValidPass = await compare(pwd, result[0].pwd)
+                if (isValidPass) {
+
+                    const token = createToken({
+                        emailAdd,
+                        pwd
+
+
+                    })
+                    res.json({
+                        status: res.statusCode,
+                        token,
+                        result: result[0]
+
+
+
+
+                    })
+
+                } else {
+
+                    res.json({
+
+                        status: 401,
+                        msg: "You might not be registered"
+
+
+                    })
+
+
+                }
+
+
+            }
+        })
+
+
+    } catch (e) {
+
+        res.json({
+            status: 404,
+            msg: e.message
+
+
+
+        })
+
+    }
+
+
+
+
+
+})
 
 router.get("*", (req, res) => {
 
