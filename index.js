@@ -11,6 +11,7 @@ import {
     hash, compare
 } from "bcrypt"
 import bodyParser from "body-parser"
+import { create } from "domain"
 //create express app
 const app = express()
 const port = +process.env.PORT || 4000
@@ -37,7 +38,7 @@ router.get("/users", (req, res) => {
     try {
 
         const strQry = `
-    select userID, firstName, lastName, age, emailAdd
+    select userID, firstName, lastName, age, emailAdd, UserRole, profileUrl
     from Users;
 
     
@@ -72,7 +73,7 @@ router.get("/users/:id", (req, res) => {
 
 
         const strQry = `
-    select userID, firstName, lastName, age, emailAdd
+    select userID, firstName, lastName, age, emailAdd, UserRole, profileUrl
     from Users
     where userID = ${req.params.id}; 
     
@@ -100,6 +101,232 @@ router.get("/users/:id", (req, res) => {
 
     }
 })
+
+router.get("/operatives", (req, res) => {
+try {
+const strQry = `
+select * from TestTable;
+
+
+
+
+`
+db.query(strQry,(err, results) => {
+
+if (err) throw new Error("Couldn't get operative database")
+res.json({
+status: res.statusCode,
+results
+
+
+
+})
+
+
+
+
+
+})
+
+
+
+
+
+
+
+} catch (e) {
+
+    res.json({
+    status:404,
+    msg: e.message
+
+
+    })
+
+
+
+
+
+}
+
+
+
+
+
+
+})
+router.post("/opreg", async (req, res) => {
+try {
+
+    let data = req.body
+    
+    data.Mission = await hash(data.Mission, 10)
+    let user = {
+    Mission : data.Mission,
+    Mask: data.Mask
+
+
+
+    }
+
+
+
+const strQry = `
+insert into TestTable
+Set ?;
+
+
+
+`
+db.query(strQry,[data], (err) => {
+if(err) {
+res.json({
+
+    status: res.statusCode,
+    msg: err.message
+
+
+
+
+})
+
+
+
+
+} else {
+
+    const token = createToken(user) 
+    res.json({
+    token,
+    msg: "You will be notified by phone when it is right."
+
+
+
+
+    })
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+})
+
+
+
+
+} catch (e) {
+res.json({
+status:404,
+msg: "Operative could not be added for unknown reason."
+
+
+})
+}
+
+
+
+
+
+
+
+
+})
+
+// router.post("oplogin", (req, res) => {
+// try {
+
+// const { 
+//     Operative, 
+//     Mission
+
+
+// } = req.body
+
+// const strQry = `
+// select OpID, Operative, Mask, Mission
+// from TestTable
+// where OpID = '${Mission}';
+
+
+
+// `
+// db.query(strQry, async(err, result) => {
+//     if (err) throw new Error("Wrong info. You have 3 tries left before agents are dispatched to your location")
+//         if(!result?.length) {
+//         res.json({
+
+//         status:404,
+//         msg:"You're not in our database. How'd you get here?"
+
+
+
+//         })
+
+
+
+
+
+        
+//     }else {
+
+//     const isValidPass = await compare(Mission, result[0].Mission)
+//     if (isValidPass) {
+//         const token = createToken({
+//         Mission,
+//         Mask
+
+
+
+
+//         })
+//         res.json({
+
+
+
+
+//         })
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+// })
+// }catch(e) {
+
+
+
+
+
+
+// }
+
+// })
+
+
 router.post("/register", async (req, res) => {
     try {
         let data = req.body
@@ -256,7 +483,7 @@ router.post("/login", (req, res) => {
         } = req.body
         const strQry = `
     
-    select userID, firstName, lastName, age, emailAdd, pwd
+    select userID, firstName, lastName, age, emailAdd, pwd, UserRole, profileUrl
     from Users
     where emailAdd = '${emailAdd}';
     
