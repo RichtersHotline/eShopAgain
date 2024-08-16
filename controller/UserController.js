@@ -42,3 +42,9 @@ userRouter.post("/login", (req, res) => {
                     
                     
                     }) 
+
+                    export {
+     express,
+     userRouter
+
+                    }
