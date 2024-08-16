@@ -42,6 +42,43 @@ class products {
     
     
     }
+    fetchRecentProduct(req, res) {
+        try {
+
+
+            const strQry = `
+        select productID, prodName, Category, prodDescription, prodURL, amount
+        from Products
+        order by productID desc
+        limit 5;
+        
+        
+        `
+            db.query(strQry, (err, results) => {
+    
+                if (err) throw new Error(`Unable to get Products`)
+                res.json({
+                    status: res.statusCode,
+                    results
+    
+    
+    
+                })
+            })
+        } catch (e) {
+    
+            res.json({
+                status: 404,
+                Msg: e.message
+    
+            })
+    
+    
+        }
+
+
+
+    }
     fetchSingleProduct(req, res) {
         try {
 
@@ -58,7 +95,7 @@ class products {
                 if (err) throw new Error(`Unable to get Products`)
                 res.json({
                     status: res.statusCode,
-                    results
+                    results: results[0]
     
     
     
@@ -94,7 +131,7 @@ class products {
      SET ?;
     
     `
-            db.query(strQry, [data], (err) => {
+            db.query(strQry, [req.body], (err) => {
     
                 if (err) {
                     res.json({
@@ -108,9 +145,9 @@ class products {
     
                 } else {
     
-                    const token = createToken(Product)
+                    
                     res.json({
-                        token,
+                        status:res.statusCode,
                         msg: "Product has successfully been added"
     
     
@@ -148,10 +185,10 @@ class products {
         
         
         `
-            db.query(strQry, [data], (err) => {
+            db.query(strQry, [req.data], (err) => {
                 if (err) throw new Error("unable to update product. Contact site Admin")
                 res.json({
-    
+                
                     status: res.statusCode,
                     msg: "product record, Updated."
     

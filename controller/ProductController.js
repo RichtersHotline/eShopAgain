@@ -8,7 +8,7 @@ userRouter.use(bodyParser.json())
 
 userRouter.get("/products", (req, res) => {
 
-    Product.fetchProducts(req,res)
+    Product.fetchProducts(req, res)
     
     
     })

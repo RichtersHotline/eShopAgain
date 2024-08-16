@@ -8,13 +8,13 @@ userRouter.use(bodyParser.json())
 
 userRouter.get("/", (req, res) => {
 
-programUser.fetchUsers(req,res)
+programUser.fetchUsers(req, res)
 
 
 })
 userRouter.get("/:id", (req, res) => {
 
-    programUser.fetchSingleUser(req,res)
+    programUser.fetchSingleUser(req, res)
     
     
     })
