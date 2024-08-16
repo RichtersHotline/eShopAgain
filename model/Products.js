@@ -42,7 +42,7 @@ class products {
     
     
     }
-    fetchRecentProduct(req, res) {
+    RecentProducts(req, res) {
         try {
 
 
@@ -56,7 +56,7 @@ class products {
         `
             db.query(strQry, (err, results) => {
     
-                if (err) throw new Error(`Unable to get Products`)
+                if (err) throw new Error(err)
                 res.json({
                     status: res.statusCode,
                     results
@@ -175,7 +175,6 @@ class products {
 
         try {
     
-            let data = req.body
 
             const strQry = `
         
@@ -185,7 +184,7 @@ class products {
         
         
         `
-            db.query(strQry, [req.data], (err) => {
+            db.query(strQry, [req.body], (err) => {
                 if (err) throw new Error("unable to update product. Contact site Admin")
                 res.json({
                 
