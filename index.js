@@ -1,17 +1,15 @@
 // 
 import {userRouter, express} from "./controller/UserController.js"
 import {ProductRouter} from "./controller/ProductController.js"
-
-import path from "path"
-import { Product } from "./model/index.js"
-//create express app
+import path from "path"//create express app
 const app = express()
-const port = +process.env.PORT || 4000
-const router = express.Router()
-// Middleware
-app.use(router,
-    "/users", userRouter,
-    "/product", ProductRouter,
+const port = +process.env.PORT || 4000// Middleware
+// creating an express app
+app.use("/users", userRouter)
+app.use("/products", ProductRouter)
+
+app.use(
+    
     express.static("./static"),
     express.json(),
     express.urlencoded({
@@ -19,7 +17,7 @@ app.use(router,
 
     }))
 
-router.get("^/$|/eShop", (req, res) => {
+app.get("^/$|/eShop", (req, res) => {
 
     res.status(200).sendFile(path.resolve("./static/html/index.html"))
 
@@ -27,7 +25,7 @@ router.get("^/$|/eShop", (req, res) => {
 })
 
 
-router.get("*", (req, res) => {
+app.get("*", (req, res) => {
 
     res.json({
 
@@ -39,7 +37,7 @@ router.get("*", (req, res) => {
 
 
 })
-// router.get("/users/Single", (req, res) => {
+// app.get("/users/Single", (req, res) => {
 
 //     try {
 
@@ -79,3 +77,4 @@ app.listen(port, () => {
     console.log(`Port is running at ${port}`);
 
 })
+

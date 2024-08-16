@@ -7,13 +7,13 @@ const ProductRouter = express.Router()
 
 ProductRouter.use(bodyParser.json())
 
-ProductRouter.get("/products", verifyAToken, (req, res) => {
+ProductRouter.get("/", verifyAToken, (req, res) => {
 
     Product.fetchProducts(req, res)
     
     
     })
-    ProductRouter.get("/products/:id", verifyAToken, (req, res) => {
+    ProductRouter.get("/:id", verifyAToken, (req, res) => {
     
         Product.fetchSingleProduct(req,res)
         
@@ -25,26 +25,26 @@ ProductRouter.get("/products", verifyAToken, (req, res) => {
             
             
             })
-    ProductRouter.post("/add/:id", verifyAToken, (req, res) => {
+    ProductRouter.post("/:id", verifyAToken, (req, res) => {
     
             Product.addProduct(req,res)
             
             
             }) 
-    ProductRouter.patch("/update/:id", verifyAToken, (req, res) => {
+    ProductRouter.patch("/:id", verifyAToken, (req, res) => {
     
                 Product.updateProduct(req,res)
                 
                 
                 }) 
-    ProductRouter.delete("/delete/:id", verifyAToken, (req, res) => {
+    ProductRouter.delete("/:id", verifyAToken, (req, res) => {
     
                     Product.deleteProduct(req,res)
                     
                     
                     }) 
     export {
-
+       
         ProductRouter
  
     }
