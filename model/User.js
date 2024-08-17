@@ -1,6 +1,6 @@
 import {
     connection as db
-} from "../config/Config.js"
+} from "../Config/Config.js"
 import {
     createToken
 } from "../middleware/AuthenticateUser.js"
