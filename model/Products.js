@@ -104,7 +104,7 @@ class products {
     } catch (e) {
       res.json({
         status: 404,
-        msg: e.message,
+        err: e.message,
       });
     }
   }
