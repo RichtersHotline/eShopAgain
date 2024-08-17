@@ -13,18 +13,18 @@ ProductRouter.get("/",  (req, res) => {
     
     
     })
+    ProductRouter.get("/recent", (req, res) => {
+
+        Product.RecentProducts(req, res)
+        
+        
+        })
     ProductRouter.get("/:id",  (req, res) => {
     
         Product.fetchSingleProduct(req,res)
         
         
-        })
-        ProductRouter.get("/recent", (req, res) => {
-    
-            Product.RecentProducts(req,res)
-            
-            
-            })
+    })
     ProductRouter.post("/add", verifyAToken, (req, res) => {
     
             Product.addProduct(req,res)
