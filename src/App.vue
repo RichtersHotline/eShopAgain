@@ -1,11 +1,28 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
-</template>
+  <div class="wrapper">
+    <NavbarComp/>
+<main class="container-fluid">
 
-<style src="@/assets/css/style.css"> 
+  <router-view/>
+
+
+</main>
+<footerComp/>
+  </div>
+</template>
+<script>
+import footerComp from "@/components/footerComp.vue";
+import NavbarComp from "@/components/NavbarComp.vue";
+export default {
+components: {
+
+  NavbarComp,
+  footerComp
+}
+}
+
+
+</script>
+<style src="@/assets/Styles/style.css"> 
 
 </style>
