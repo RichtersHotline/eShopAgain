@@ -1,5 +1,4 @@
 import { connection as db } from "../config/Config.js";
-import { createToken } from "../middleware/AuthenticateUser.js";
 
 class products {
   fetchProducts(req, res) {
