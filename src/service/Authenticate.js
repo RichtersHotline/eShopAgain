@@ -2,7 +2,7 @@ import axios from "axios"
 function ApplyToken(token) {
 if(token) {
 
-    axios.defaults.header =  {
+    axios.defaults.headers =  {
 
 
 Authorization: `${token}`
