@@ -131,7 +131,7 @@ async registerUser(req, res)  {
         // when a new user can't be added
         res.json({
             status: 404,
-            msg: e.message
+            err: e.message
 
         })
 
@@ -176,7 +176,7 @@ async updateUser(req, res) {
         res.json({
 
             status: 400,
-            msg: e.message
+            err: e.message
 
 
         })
@@ -218,7 +218,7 @@ where userID = ${req.params.id};
         res.json({
 
             status: 404,
-            msg: e.message
+            err: e.message
 
 
         })
